@@ -1,9 +1,28 @@
-use core::panic;
-use crate::read;
+use std::fmt;
+use structopt::StructOpt;
+/// Basic Onetime Run Calculator Writen in Rust
+#[derive(StructOpt)]
+pub struct Operand {
+    /// The operand for calculator
+    /// 
+    /// Addition (+)
+    /// 
+    /// Substracting (-)
+    /// 
+    /// Product (*)
+    /// 
+    /// Division (/)
+    /// 
+    /// Modulus (%)
+    /// 
+    /// Power (^)
+    pub operand: char,
 
-struct Operand {
-    num1: f64,
-    num2: f64,
+    /// The first number
+    pub num1: f64,
+
+    /// The second number
+    pub num2: f64,
 }
 
 impl Operand {
@@ -30,57 +49,29 @@ impl Operand {
     fn power(&self) -> f64 {
         self.num1.powf(self.num2)
     }
-    
-}
 
-pub fn calculate_1(op: &str, num1: f64) -> f64 {
-
-    let mut num2 = String::new();
-
-    println!("Num 1 : {}", num1);
-
-    print!("Num 2 : ");
-    read(&mut num2);
-    
-    let kalkulasi = Operand { 
-        num1: num1.to_string().trim().parse::<f64>().expect("The input should a number"),
-        num2: num2.to_string().trim().parse::<f64>().expect("The input should a number"),
-    };
-
-    match op {
-        "1" => { kalkulasi.addition() },
-        "2" => { kalkulasi.substraction() },
-        "3" => { kalkulasi.product() },
-        "4" => { kalkulasi.division() },
-        "5" => { kalkulasi.modulus() },
-        "6" => { kalkulasi.power() },
-        _ => panic!("No Operand"),
+    pub fn kalkulasi(&self) -> f64 {
+        match self.operand {
+            '+' => { self.addition() },
+            '-' => { self.substraction() },
+            '*' => { self.product() },
+            '/' => { self.division() },
+            '%' => { self.modulus() },
+            '^' => { self.power() },
+            _ => panic!("No Operand"),
+        }
     }
 }
 
-pub fn calculate_2(op: &str) -> f64 {
-
-    let mut num1 = String::new();
-    let mut num2 = String::new();
-
-    print!("Num 1 : ");
-    read(&mut num1);
-    
-    print!("Num 2 : ");
-    read(&mut num2);
-    
-    let kalkulasi = Operand { 
-        num1: num1.to_string().trim().parse::<f64>().expect("The input should a number"),
-        num2: num2.to_string().trim().parse::<f64>().expect("The input should a number"),
-    };
-
-    match op {
-        "1" => { kalkulasi.addition() },
-        "2" => { kalkulasi.substraction() },
-        "3" => { kalkulasi.product() },
-        "4" => { kalkulasi.division() },
-        "5" => { kalkulasi.modulus() },
-        "6" => { kalkulasi.power() },
-        _ => panic!("No Operand"),
+// Implement `Display` for `Operand Struct`
+impl fmt::Display for Operand {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        // Customize print the Operand struct
+        write!(f, "
+    Operand : {}
+    Num 1   : {}
+    Num 2   : {}"
+            , self.operand, self.num1, self.num2
+        )
     }
 }

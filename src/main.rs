@@ -10,5 +10,7 @@ fn main() {
         7. Square Root X
     */
 
-    println!("\n\n{}", calculator_args::start());
+    println!("
+    Result: {}
+    ", calculator_args::start());
 }
